@@ -48,7 +48,7 @@ function App() {
   return (
     <div className="bg-cyan-800">
       <h1 className="text-3xl font-bold underline">Lista de Tareas </h1>
-      <Navbar />
+      <Navbar setFilterType={setFilterType} />
       <Form value={task} onchange={handleChange} onsubmit={handleClick} />
       {/*       <ul className="">
         {tasks.map((task, index) => (
@@ -73,23 +73,6 @@ function App() {
         ))}
       </ul> */}
       {/* Botones para alternar entre todas, completadas y pendientes */}
-      <div>
-        <Buttons
-          nombre="Todas"
-          type="button"
-          onclick={() => setFilterType("all")}
-        />
-        <Buttons
-          nombre="Completadas"
-          type="button"
-          onclick={() => setFilterType("completed")}
-        />
-        <Buttons
-          nombre="Pendientes"
-          type="button"
-          onclick={() => setFilterType("pending")}
-        />
-      </div>
 
       {/* Pasamos solo las tareas filtradas al componente List */}
       <List

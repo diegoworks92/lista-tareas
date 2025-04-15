@@ -30,12 +30,3 @@ const List = ({ tasks, handleCheck, handleDelete }: ListType) => {
 };
 
 export default List;
-
-/* 
-<ul>
-{tasks
-  .filter((task) => task.completed === true)
-  .map((task, index) => (
-    <li key={index}>{task.text}</li>
-  ))}
-</ul> */
