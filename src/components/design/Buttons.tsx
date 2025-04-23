@@ -10,7 +10,7 @@ const Buttons = ({ nombre, onclick, type, classname }: ButtonsType) => {
     <button
       onClick={onclick}
       type={type}
-      className={`bg-amber-600 m-1 p-1 rounded-md cursor-pointer ${classname}`}
+      className={`bg-amber-600 m-1 p-1 rounded-md cursor-pointer hover:bg-amber-400 hover:text-black ${classname}`}
     >
       {nombre}
     </button>

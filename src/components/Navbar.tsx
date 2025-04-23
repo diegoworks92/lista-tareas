@@ -1,25 +1,39 @@
+import { useState } from "react";
 import Buttons from "./design/Buttons";
 
-const Navbar = ({ setFilterType }) => {
+type NavbarType = {
+  setFilterType: (filter: string) => void; // Función para establecer el tipo de filtro
+};
+
+const Navbar = ({ setFilterType }: NavbarType) => {
+  const [activeFilter, setActiveFilter] = useState<string>("all"); // Estado del botón activo
+
+  const handleClick = (filter: string) => {
+    setFilterType(filter); // Cambia el filtro en `App.tsx`
+    setActiveFilter(filter); // Cambia el botón activo
+  };
+
   return (
     <>
-      <p>filtrar tareas</p>
+      <p>Filtrar tareas</p>
       <div className="bg-cyan-800 flex justify-between items-center p-4">
-        {/* Botones para alternar entre todas, completadas y pendientes */}
         <Buttons
           nombre="Todas"
           type="button"
-          onclick={() => setFilterType("all")}
+          onclick={() => handleClick("all")}
+          classname={activeFilter === "all" ? "bg-pink-700" : ""}
         />
         <Buttons
           nombre="Completadas"
           type="button"
-          onclick={() => setFilterType("completed")}
+          onclick={() => handleClick("completed")}
+          classname={activeFilter === "completed" ? "bg-pink-700" : ""}
         />
         <Buttons
           nombre="Pendientes"
           type="button"
-          onclick={() => setFilterType("pending")}
+          onclick={() => handleClick("pending")}
+          classname={activeFilter === "pending" ? "bg-pink-700" : ""}
         />
       </div>
     </>

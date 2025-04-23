@@ -1,31 +1,68 @@
+import { useState } from "react";
 import Buttons from "./design/Buttons";
 
 type ListType = {
-  tasks: { text: string; completed: boolean }[]; // Array de tareas
-  handleCheck: (index: number) => void; // Función para manejar el evento de verificación
-  handleDelete: (index: number) => void; // Función para manejar el evento de eliminación
+  tasks: { text: string; completed: boolean; originalIndex: number }[];
+  dispatch: (action: { type: string; payload?: any }) => void;
 };
-const List = ({ tasks, handleCheck, handleDelete }: ListType) => {
+
+const List = ({ tasks, dispatch }: ListType) => {
+  const [editingIndex, setEditingIndex] = useState<number | null>(null); // Índice de la tarea en edición
+  const [newText, setNewText] = useState<string>(""); // Nuevo texto de la tarea en edición
+
   return (
-    <>
-      <ul className="">
-        {tasks.map((task, index: number) => (
-          <li key={index} className={`${task.completed ? "line-through" : ""}`}>
+    <ul>
+      {tasks.map((task) => (
+        <li
+          key={task.originalIndex}
+          className={`${task.completed ? "line-through" : ""}`}
+        >
+          {/* Usar originalIndex para marcar como completada */}
+          <Buttons
+            nombre="✔"
+            type="button"
+            onclick={() =>
+              dispatch({ type: "TOGGLE_TASK", payload: task.originalIndex })
+            }
+          />
+          {task.text}
+
+          {/* Botón para editar */}
+          {editingIndex === task.originalIndex ? (
             <Buttons
-              nombre="Listo"
+              nombre="Guardar"
               type="button"
-              onclick={() => handleCheck(index)}
+              onclick={() => {
+                dispatch({
+                  type: "EDIT_TASK",
+                  payload: { index: task.originalIndex, text: newText },
+                });
+                setEditingIndex(null);
+                setNewText("");
+              }}
             />
-            {task.text}
+          ) : (
             <Buttons
-              nombre="Eliminar"
+              nombre="M"
               type="button"
-              onclick={() => handleDelete(index)}
+              onclick={() => {
+                setEditingIndex(task.originalIndex);
+                setNewText(task.text);
+              }}
             />
-          </li>
-        ))}
-      </ul>
-    </>
+          )}
+
+          {/* Botón para eliminar */}
+          <Buttons
+            nombre="❌"
+            type="button"
+            onclick={() =>
+              dispatch({ type: "DELETE_TASK", payload: task.originalIndex })
+            }
+          />
+        </li>
+      ))}
+    </ul>
   );
 };
 
