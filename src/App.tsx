@@ -1,4 +1,4 @@
-import { useState, useReducer } from "react";
+import { useState, useReducer, useEffect } from "react";
 import Form from "./components/Form";
 import Navbar from "./components/Navbar";
 import List from "./components/List";
@@ -9,10 +9,18 @@ function App() {
     { text: "tarea 2", completed: false },
     { text: "tarea 3", completed: false },
   ];
-  /*   const [tasks, setTasks] = useState(dataUseState); */
-  const [tasks, dispatch] = useReducer(reducer, dataUseState);
+  const [tasks, dispatch] = useReducer(reducer, [], () => {
+    // Recupera tareas desde Local Storage al cargar la página
+    const storedTasks = localStorage.getItem("tasks");
+    return storedTasks ? JSON.parse(storedTasks) : dataUseState;
+  });
   const [task, setTask] = useState("");
   const [filterType, setFilterType] = useState("all"); // Estado para el tipo de filtro
+
+  // Guarda las tareas en Local Storage cuando cambien
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }, [tasks]);
 
   const handleClick = (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,22 +30,7 @@ function App() {
       setTask(""); // Limpia el input
     }
   };
-  /* 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTask(e.target.value);
-  };
 
-  const handleDelete = (indexToDelete: number) => {
-    setTasks(tasks.filter((_, i) => i !== indexToDelete));
-  };
-
-  const handleCheck = (indexCheck: number) => {
-    const updatedTasks = tasks.map((task, index) =>
-      index === indexCheck ? { ...task, completed: !task.completed } : task
-    );
-    setTasks(updatedTasks);
-  };
- */
   // 🔎 Filtrar tareas según el estado `filterType`
   const filteredTasks = tasks
     .map((task, index) => ({ ...task, originalIndex: index })) // Agregamos el índice original
