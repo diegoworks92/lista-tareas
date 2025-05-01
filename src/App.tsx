@@ -3,6 +3,7 @@ import Form from "./components/Form";
 import Navbar from "./components/Navbar";
 import List from "./components/List";
 import { reducer } from "./components/reducer/reducer";
+import { CiBoxList } from "react-icons/ci";
 function App() {
   const dataUseState = [
     { text: "tarea 1", completed: false },
@@ -24,10 +25,20 @@ function App() {
 
   const handleClick = (e: React.FormEvent) => {
     e.preventDefault();
+
     if (task.trim() !== "") {
       /* setTasks([...tasks, { text: task, completed: false }]); */ // Añade una nueva tarea con estado inicial
       dispatch({ type: "ADD_TASK", payload: task });
       setTask(""); // Limpia el input
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const maxLength = 17; // Longitud máxima del texto
+    const value = e.target.value;
+    // Limitar la entrada al máximo número de letras permitido
+    if (value.length <= maxLength) {
+      setTask(value.trimStart()); // Actualiza el estado solo si no se supera el límite
     }
   };
 
@@ -44,12 +55,16 @@ function App() {
     );
 
   return (
-    <div className="bg-cyan-800">
-      <h1 className="text-3xl font-bold underline">Lista de Tareas </h1>
+    <div className="bg-cyan-800 sm:w-96 w-80 min-h-72 rounded-2xl p-2 ">
+      <div className="flex">
+        <CiBoxList className="text-3xl mt-1 mr-2" />
+        <h1 className="text-3xl font-bold underline">Lista de Tareas </h1>
+      </div>
       <Navbar setFilterType={setFilterType} />
       <Form
         value={task}
-        onchange={(e) => setTask(e.target.value)}
+        /* onchange={(e) => setTask(e.target.value)} */
+        onchange={handleChange} // Captura el valor del input
         onsubmit={handleClick}
       />
 

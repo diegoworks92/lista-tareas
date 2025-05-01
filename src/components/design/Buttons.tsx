@@ -1,5 +1,5 @@
 type ButtonsType = {
-  nombre: string;
+  nombre: React.ReactNode; // Puede ser un string o un componente de icono
   onclick?: () => void;
   type: "button" | "submit";
   classname?: string;

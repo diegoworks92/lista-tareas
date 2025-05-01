@@ -1,5 +1,16 @@
 @import "tailwindcss";
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
 :root {
   background-color: black;
   color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

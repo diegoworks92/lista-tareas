@@ -1,6 +1,10 @@
 import { useState } from "react";
 import Buttons from "./design/Buttons";
 import { Action } from "./reducer/reducer"; // Importa el tipo de acción desde el reducer
+import { BiSolidEditAlt } from "react-icons/bi";
+import { FaRegSave } from "react-icons/fa";
+import { FaCheck } from "react-icons/fa";
+import { IoMdClose } from "react-icons/io";
 
 type ListType = {
   tasks: { text: string; completed: boolean; originalIndex: number }[];
@@ -20,7 +24,7 @@ const List = ({ tasks, dispatch }: ListType) => {
         >
           {/* Usar originalIndex para marcar como completada */}
           <Buttons
-            nombre="✔"
+            nombre={<FaCheck />}
             type="button"
             onclick={() =>
               dispatch({ type: "TOGGLE_TASK", payload: task.originalIndex })
@@ -38,7 +42,7 @@ const List = ({ tasks, dispatch }: ListType) => {
                 className="border-2 border-gray-300 rounded p-1"
               />
               <Buttons
-                nombre="Guardar"
+                nombre={<FaRegSave />}
                 type="button"
                 onclick={() => {
                   dispatch({
@@ -55,7 +59,7 @@ const List = ({ tasks, dispatch }: ListType) => {
               {/* Muestra el texto normal si no estamos en modo edición */}
               {task.text}
               <Buttons
-                nombre="M"
+                nombre={<BiSolidEditAlt />}
                 type="button"
                 onclick={() => {
                   setEditingIndex(task.originalIndex); // Activa el modo edición
@@ -67,7 +71,7 @@ const List = ({ tasks, dispatch }: ListType) => {
 
           {/* Botón para eliminar */}
           <Buttons
-            nombre="❌"
+            nombre={<IoMdClose />}
             type="button"
             onclick={() =>
               dispatch({ type: "DELETE_TASK", payload: task.originalIndex })
